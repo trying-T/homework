@@ -1,16 +1,13 @@
-# C语言作业
+# 第一次作业
 
-## 目录结构
+## 1. Hello World 实现
 
-```
-├── ex01/               # 第一次作业
-│   ├── hello.c         # 基础版 Hello World
-│   ├── 01.c            # 函数版 Hello World（含 getInput / showOutput）
-│   └── README.md       # 作业说明
-```
+### hello.c — 基础版
+最简单的 Hello World 程序，直接输出 "Hello, World!"。
 
-## 作业列表
+### 01.c — 函数版
+在 Hello World 基础上增加了函数封装：
 
-| 作业 | 内容 |
-|------|------|
-| ex01 | Hello World 实现（基础版 + 函数版） |
+- `getInput()` — 获取用户键盘输入
+- `showOutput()` — 显示输出用户输入的内容
+- `main()` — 调用上述两个函数完成输入输出
