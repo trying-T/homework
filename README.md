@@ -88,3 +88,31 @@ void loop() {
 
 ![实验照片1](ex02/dc2e2bcaf62d70147c179d33d154f716.jpg)
 ![实验照片2](ex02/e42bcdc1e4666338a6d8953225e269d6.jpg)
+
+---
+
+## ex03 — millis() 函数 LED SOS 信号灯
+
+### sketch_jun21a.ino — 非阻塞式 SOS 摩斯电码信号灯
+
+使用 `millis()` 函数配合数组驱动的状态机，实现非阻塞式 SOS 信号灯（摩斯电码：`... --- ...`）。
+
+- `ledPattern[]` — bool 数组描述 18 个 LED 亮/灭状态序列（S：短闪×3 → O：长闪×3 → S：短闪×3）
+- `durationPattern[]` — 对应每个状态的持续时间（ms）：短亮 200ms、短灭 200ms、长亮 600ms、字母间隔 600ms、SOS 间隔 2000ms
+- `setup()` — 设置 LED 引脚（GPIO 2）为输出模式
+- `loop()` — 通过 `millis()` 判断当前状态持续时间是否结束，自动切换到下一状态，循环播放 SOS 序列
+
+```cpp
+bool ledPattern[] = {
+  true, false, true, false, true, false,  // S: · · ·
+  true, false, true, false, true, false,  // O: — — —
+  true, false, true, false, true, false   // S: · · ·
+};
+unsigned long durationPattern[] = {
+  DOT_TIME, SYMBOL_GAP, DOT_TIME, SYMBOL_GAP, DOT_TIME, LETTER_GAP,
+  DASH_TIME, SYMBOL_GAP, DASH_TIME, SYMBOL_GAP, DASH_TIME, LETTER_GAP,
+  DOT_TIME, SYMBOL_GAP, DOT_TIME, SYMBOL_GAP, DOT_TIME, SOS_GAP
+};
+```
+
+![SOS实验视频](ex03/adddc2e74e51d9e3e73ef01cc8510469.mp4)
