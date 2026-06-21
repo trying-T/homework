@@ -46,3 +46,16 @@
 - `loop()` — 循环发送 S（短闪×3）→ O（长闪×3）→ S（短闪×3），字母间隔 500ms，单词间隔 2000ms
 
 ![SOS实验视频](lab02/SOS_light/508563b3cbd44795ebdb56875c0a9881.mp4)
+
+---
+
+## lab03 — PWM LED 呼吸灯实验
+
+### 3/3.ino — LED 呼吸灯
+
+使用 ESP32 的 `ledcAttach()` / `ledcWrite()` PWM（脉宽调制）功能控制板载 LED（GPIO 2）实现呼吸灯效果。
+
+- `setup()` — 初始化串口，使用 `ledcAttach()` 绑定 GPIO 2，设置 PWM 频率 5000Hz、8 位分辨率（0-255）
+- `loop()` — 通过 `ledcWrite()` 逐步调节占空比，实现 LED 渐亮→渐暗→渐亮的呼吸效果，每次循环后串口输出 "Breathing cycle completed"
+
+![呼吸灯实验视频](lab03/2d5cf91a3176be81d3a8f587616f51a9.mp4)
