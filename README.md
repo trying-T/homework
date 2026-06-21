@@ -59,3 +59,32 @@
 - `loop()` — 通过 `ledcWrite()` 逐步调节占空比，实现 LED 渐亮→渐暗→渐亮的呼吸效果，每次循环后串口输出 "Breathing cycle completed"
 
 ![呼吸灯实验视频](lab03/2d5cf91a3176be81d3a8f587616f51a9.mp4)
+
+---
+
+## ex02 — millis() 函数 LED 1Hz 闪烁
+
+### sketch_jun21a.ino — 非阻塞式 LED 1Hz 闪烁
+
+使用 `millis()` 函数替代 `delay()` 实现非阻塞式 LED 1Hz 闪烁（亮 500ms / 灭 500ms）。
+
+- `setup()` — 设置 LED 引脚（GPIO 2）为输出模式
+- `loop()` — 通过 `millis()` 获取系统运行时间，每 500ms 翻转一次 LED 状态，实现 1Hz 精确闪烁，不会阻塞其他代码执行
+
+```cpp
+unsigned long previousMillis = 0;
+const unsigned long interval = 500;  // 1Hz = 500ms on, 500ms off
+bool ledState = LOW;
+
+void loop() {
+  unsigned long currentMillis = millis();
+  if (currentMillis - previousMillis >= interval) {
+    previousMillis = currentMillis;
+    ledState = !ledState;
+    digitalWrite(LED_PIN, ledState);
+  }
+}
+```
+
+![实验照片1](ex02/dc2e2bcaf62d70147c179d33d154f716.jpg)
+![实验照片2](ex02/e42bcdc1e4666338a6d8953225e269d6.jpg)
