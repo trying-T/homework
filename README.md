@@ -116,3 +116,78 @@ unsigned long durationPattern[] = {
 ```
 
 ![SOS实验视频](ex03/adddc2e74e51d9e3e73ef01cc8510469.mp4)
+
+---
+
+## ex04 — ESP32 触摸自锁开关
+
+### sketch_jun30a.ino — 触摸自锁开关
+
+利用 ESP32 电容触摸传感器（T0 / GPIO4）实现触摸自锁开关：
+摸一下 LED 亮并保持，再摸一下 LED 灭并保持。
+
+- **`touchRead(T0)`** — 读取电容触摸值
+- **阈值判定** — 触摸时数值下降，阈值 400
+- **软件防抖** — 80ms 防抖延迟
+- **边缘检测** — 只在"未触摸 → 触摸"瞬间翻转 LED
+
+---
+
+## ex05 — 多档位触摸调速呼吸灯
+
+### sketch_jun30a.ino — 触摸调速呼吸灯
+
+融合触摸引脚与 PWM 呼吸灯，每触摸一次在 1（慢）→ 2（中）→ 3（快）→ 1 之间循环切换呼吸速度。
+
+- `handleTouch()` — 触摸检测 + 档位切换
+- `updateBreath()` — 根据档位更新呼吸灯（间隔 25ms / 8ms / 1ms）
+- `analogWrite()` — ESP32 PWM 控制亮度
+
+---
+
+## ex06 — 警车双闪灯效
+
+### sketch_jun30b.ino — 双通道 PWM 反相渐变
+
+两个 LED 反相渐变，实现警车双闪效果（A 渐亮时 B 渐暗）。
+
+- GPIO18（PWM 通道 0）、GPIO19（PWM 通道 1）
+- 反相输出：`dutyA = x`，`dutyB = 255 - x`
+- 兼容 Arduino Core 2.x / 3.x
+
+---
+
+## ex07 — Web 网页端无极调光器
+
+### sketch_jun30a.ino — 网页实时调光
+
+手机/电脑连接 ESP32 热点后，通过浏览器访问网页，滑动条实时控制 LED 亮度。
+
+- **WiFi AP**：`ESP32-DIMMER` / `192.168.4.1`
+- **WebServer + AJAX**：前端 Fetch API 实时发送亮度值
+- **PWM 无极调节**：0-255
+
+---
+
+## ex08 — 物联网安防报警器
+
+### sketch_jun30c.ino — Web 布防/触摸报警
+
+网页端布防/撤防，布防状态下触摸引脚触发报警锁定，LED 高频闪烁。
+
+- **WiFi AP**：`ESP32-ALARM` / `192.168.4.1`
+- **状态机**：未布防 → 已布防 → 报警中
+- **HTTP 路由**：`/`、`/arm`、`/disarm`、`/status`
+- **报警 LED**：80ms 间隔高频闪烁
+
+---
+
+## ex09 — 实时传感器 Web 仪表盘
+
+### sketch_jun30d.ino — AJAX 实时数据仪表盘
+
+网页端每 200ms 通过 AJAX 轮询 ESP32 `touchRead()` 数据，实时数值显示 + 进度条可视化。
+
+- **WiFi AP**：`ESP32-DASHBOARD` / `192.168.4.1`
+- **数据接口**：`/touch`（纯文本）、`/touchJson`（JSON）
+- **前端**：`setInterval()` 定时 AJAX 轮询 + CSS 进度条
